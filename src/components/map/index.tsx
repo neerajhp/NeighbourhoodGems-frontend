@@ -1,6 +1,7 @@
 import React from 'react';
 import { GoogleMap, LoadScript, LoadScriptProps } from '@react-google-maps/api';
 import { styles as customStyles } from './styles';
+import { mapConfig } from './config';
 
 const containerStyle = {
   width: '100vw',
@@ -16,17 +17,17 @@ const mapOptions = {
   mapTypeControl: false,
   styles: customStyles,
 };
-
+//API KEY
 const API_KEY: string = process.env.REACT_APP_GOOGLEMAPS_API_KEY as string;
 
 const Map = () => {
   return (
-    <LoadScript googleMapsApiKey={API_KEY}>
+    <LoadScript googleMapsApiKey={mapConfig.API_KEY}>
       <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
+        mapContainerStyle={mapConfig.container}
+        center={mapConfig.center}
         zoom={17}
-        options={mapOptions}
+        options={mapConfig.options}
       >
         {/* Child components, such as markers, info windows, etc. */}
         <></>
