@@ -1,39 +1,40 @@
 import React from 'react';
-import { GoogleMap, LoadScript, LoadScriptProps } from '@react-google-maps/api';
-import { styles as customStyles } from './styles';
+import { GoogleMap, LoadScript, useJsApiLoader } from '@react-google-maps/api';
 import { mapConfig } from './config';
-
-const containerStyle = {
-  width: '100vw',
-  height: '100vh',
-};
-
-const center = {
-  lat: -37.825385,
-  lng: 144.963814,
-};
-
-const mapOptions = {
-  mapTypeControl: false,
-  styles: customStyles,
-};
-//API KEY
-const API_KEY: string = process.env.REACT_APP_GOOGLEMAPS_API_KEY as string;
+import { Marker } from '@react-google-maps/api';
 
 const Map = () => {
-  return (
-    <LoadScript googleMapsApiKey={mapConfig.API_KEY}>
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: mapConfig.API_KEY,
+  });
+
+  const renderMap = () => {
+    // wrapping to a function is useful in case you want to access `window.google`
+    // to eg. setup options or create latLng object, it won't be available otherwise
+    // feel free to render directly if you don't need that
+
+    return (
       <GoogleMap
         mapContainerStyle={mapConfig.container}
         center={mapConfig.center}
         zoom={17}
         options={mapConfig.options}
       >
-        {/* Child components, such as markers, info windows, etc. */}
-        <></>
+        <Marker
+          label={'Corner Co 1903'}
+          title={'The marker`s title will appear as a tooltip.'}
+          position={{ lat: -37.8262494, lng: 144.9600383 }}
+          animation={google.maps.Animation.DROP}
+        />
       </GoogleMap>
-    </LoadScript>
-  );
+    );
+  };
+
+  if (loadError) {
+    return <div>Map cannot be loaded right now, sorry.</div>;
+  }
+
+  return isLoaded ? renderMap() : <div>Did Not Load</div>;
 };
 
 export default Map;
