@@ -2,6 +2,8 @@ import React from 'react';
 import { GoogleMap, LoadScript, useJsApiLoader } from '@react-google-maps/api';
 import { mapConfig } from './config';
 import { Marker } from '@react-google-maps/api';
+//DUMMY DATA
+import { dummyData } from '../../res/dummy-data';
 
 const Map = () => {
   const { isLoaded, loadError } = useJsApiLoader({
@@ -20,12 +22,14 @@ const Map = () => {
         zoom={17}
         options={mapConfig.options}
       >
-        <Marker
-          label={'Corner Co 1903'}
-          title={'The marker`s title will appear as a tooltip.'}
-          position={{ lat: -37.8262494, lng: 144.9600383 }}
-          animation={google.maps.Animation.DROP}
-        />
+        {dummyData.map((landmark) => (
+          <Marker
+            label={landmark.name}
+            title={'This is a temporary title'}
+            position={landmark.location}
+            animation={google.maps.Animation.DROP}
+          />
+        ))}
       </GoogleMap>
     );
   };
