@@ -4,6 +4,7 @@ import { mapConfig } from './config';
 import { Marker } from '@react-google-maps/api';
 //DUMMY DATA
 import { dummyData } from '../../res/dummy-data';
+import { markers } from './markers';
 
 const Map = () => {
   const { isLoaded, loadError } = useJsApiLoader({
@@ -24,7 +25,12 @@ const Map = () => {
       >
         {dummyData.map((landmark) => (
           <Marker
-            label={landmark.name}
+            label={{
+              text: markers[landmark.type].icon, // codepoint from https://fonts.google.com/icons
+              fontFamily: 'Material Icons',
+              color: '#ffffff',
+              fontSize: '18px',
+            }}
             title={'This is a temporary title'}
             position={landmark.location}
             animation={google.maps.Animation.DROP}
