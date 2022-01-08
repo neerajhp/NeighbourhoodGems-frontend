@@ -1,10 +1,10 @@
 import React from 'react';
-import { GoogleMap, LoadScript, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { mapConfig } from './config';
-import { Marker } from '@react-google-maps/api';
+import { markers } from './markers';
+
 //DUMMY DATA
 import { dummyData } from '../../res/dummy-data';
-import { markers } from './markers';
 
 const Map = () => {
   const { isLoaded, loadError } = useJsApiLoader({
