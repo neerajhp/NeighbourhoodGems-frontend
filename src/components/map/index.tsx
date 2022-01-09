@@ -1,39 +1,48 @@
 import React from 'react';
-import { GoogleMap, LoadScript, LoadScriptProps } from '@react-google-maps/api';
-import { styles as customStyles } from './styles';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { mapConfig } from './config';
+import { markers } from './markers';
 
-const containerStyle = {
-  width: '100vw',
-  height: '100vh',
-};
-
-const center = {
-  lat: -37.825385,
-  lng: 144.963814,
-};
-
-const mapOptions = {
-  mapTypeControl: false,
-  styles: customStyles,
-};
-//API KEY
-const API_KEY: string = process.env.REACT_APP_GOOGLEMAPS_API_KEY as string;
+//DUMMY DATA
+import { dummyData } from '../../res/dummy-data';
 
 const Map = () => {
-  return (
-    <LoadScript googleMapsApiKey={mapConfig.API_KEY}>
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: mapConfig.API_KEY,
+  });
+
+  const renderMap = () => {
+    // wrapping to a function is useful in case you want to access `window.google`
+    // to eg. setup options or create latLng object, it won't be available otherwise
+    // feel free to render directly if you don't need that
+
+    return (
       <GoogleMap
         mapContainerStyle={mapConfig.container}
         center={mapConfig.center}
         zoom={17}
         options={mapConfig.options}
       >
-        {/* Child components, such as markers, info windows, etc. */}
-        <></>
+        {dummyData.map((landmark) => (
+          <Marker
+            icon={{
+              url: markers[landmark.type].svg,
+              scaledSize: new window.google.maps.Size(32, 32),
+            }}
+            title={'This is a temporary title'}
+            position={landmark.location}
+            animation={google.maps.Animation.DROP}
+          />
+        ))}
       </GoogleMap>
-    </LoadScript>
-  );
+    );
+  };
+
+  if (loadError) {
+    return <div>Map cannot be loaded right now, sorry.</div>;
+  }
+
+  return isLoaded ? renderMap() : <div>Did Not Load</div>;
 };
 
 export default Map;
