@@ -25,11 +25,9 @@ const Map = () => {
       >
         {dummyData.map((landmark) => (
           <Marker
-            label={{
-              text: markers[landmark.type].icon, // codepoint from https://fonts.google.com/icons
-              fontFamily: 'Material Icons',
-              color: '#ffffff',
-              fontSize: '18px',
+            icon={{
+              url: markers[landmark.type].svg,
+              scaledSize: new window.google.maps.Size(32, 32),
             }}
             title={'This is a temporary title'}
             position={landmark.location}
