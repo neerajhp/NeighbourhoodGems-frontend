@@ -11,19 +11,38 @@ import {
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { toggleRestaurantMarkers } from './mapControlSlice';
 
 const ControlContainer = styled(Paper)(() => ({ padding: '16px' }));
 
 const MapControls = () => {
+  const markerControls = useAppSelector((state) => state.markers);
+  const dispatch = useAppDispatch();
+
   return (
     <Grid container height={'100%'}>
       <Grid item xs={3}>
         <Box sx={{ display: 'grid', gap: 2, p: 2 }}>
           <ControlContainer>
             <FormGroup>
-              <FormControlLabel control={<Checkbox />} label='Restaurants' />
-              <FormControlLabel control={<Checkbox />} label='Cafes' />
-              <FormControlLabel control={<Checkbox />} label='Events' />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={markerControls.restaurant}
+                    onChange={() => dispatch(toggleRestaurantMarkers())}
+                  />
+                }
+                label='Restaurants'
+              />
+              <FormControlLabel
+                control={<Checkbox checked={markerControls.cafe} />}
+                label='Cafes'
+              />
+              <FormControlLabel
+                control={<Checkbox checked={markerControls.event} />}
+                label='Events'
+              />
             </FormGroup>
           </ControlContainer>
           <ControlContainer>
