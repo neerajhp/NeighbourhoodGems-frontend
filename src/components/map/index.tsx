@@ -25,7 +25,7 @@ const Map = () => {
       >
         {dummyData.map((landmark) => {
           return (
-            markerControls.restaurant && (
+            markerControls[landmark.type] && (
               <Marker
                 icon={{
                   url: markers[landmark.type].svg,

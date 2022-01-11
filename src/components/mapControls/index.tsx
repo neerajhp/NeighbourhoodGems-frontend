@@ -12,7 +12,11 @@ import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { toggleRestaurantMarkers } from './mapControlSlice';
+import {
+  toggleCafeMarkers,
+  toggleEventMarkers,
+  toggleRestaurantMarkers,
+} from './mapControlSlice';
 
 const ControlContainer = styled(Paper)(() => ({ padding: '16px' }));
 
@@ -37,10 +41,16 @@ const MapControls = () => {
               />
               <FormControlLabel
                 control={<Checkbox checked={markerControls.cafe} />}
+                onChange={() => dispatch(toggleCafeMarkers())}
                 label='Cafes'
               />
               <FormControlLabel
-                control={<Checkbox checked={markerControls.event} />}
+                control={
+                  <Checkbox
+                    checked={markerControls.event}
+                    onChange={() => dispatch(toggleEventMarkers())}
+                  />
+                }
                 label='Events'
               />
             </FormGroup>
