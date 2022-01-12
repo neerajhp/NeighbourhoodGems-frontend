@@ -19,27 +19,21 @@ const MapControls = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <Grid container height={'100%'}>
-      <Grid item xs={3}>
-        <Box sx={{ display: 'grid', gap: 2, p: 2 }}>
-          <ControlContainer>
-            <FormGroup>
-              {MARKERS.map((marker) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={markerControls[marker.type]}
-                      onChange={() => dispatch(toggleMarker(marker.type))}
-                    />
-                  }
-                  label={marker.type}
-                />
-              ))}
-            </FormGroup>
-          </ControlContainer>
-        </Box>
-      </Grid>
-    </Grid>
+    <ControlContainer>
+      <FormGroup>
+        {MARKERS.map((marker) => (
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={markerControls[marker.type]}
+                onChange={() => dispatch(toggleMarker(marker.type))}
+              />
+            }
+            label={marker.type}
+          />
+        ))}
+      </FormGroup>
+    </ControlContainer>
   );
 };
 
