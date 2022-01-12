@@ -5,18 +5,12 @@ import {
   Checkbox,
   FormGroup,
   FormControlLabel,
-  InputBase,
-  IconButton,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {
-  toggleCafeMarkers,
-  toggleEventMarkers,
-  toggleRestaurantMarkers,
-} from './mapControlSlice';
+import { toggleMarker } from './mapControlSlice';
+import { MARKERS } from '../markers';
 
 const ControlContainer = styled(Paper)(() => ({ padding: '16px' }));
 
@@ -30,42 +24,18 @@ const MapControls = () => {
         <Box sx={{ display: 'grid', gap: 2, p: 2 }}>
           <ControlContainer>
             <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={markerControls.restaurant}
-                    onChange={() => dispatch(toggleRestaurantMarkers())}
-                  />
-                }
-                label='Restaurants'
-              />
-              <FormControlLabel
-                control={<Checkbox checked={markerControls.cafe} />}
-                onChange={() => dispatch(toggleCafeMarkers())}
-                label='Cafes'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={markerControls.event}
-                    onChange={() => dispatch(toggleEventMarkers())}
-                  />
-                }
-                label='Events'
-              />
+              {MARKERS.map((marker) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={markerControls[marker.type]}
+                      onChange={() => dispatch(toggleMarker(marker.type))}
+                    />
+                  }
+                  label={marker.type}
+                />
+              ))}
             </FormGroup>
-          </ControlContainer>
-          <ControlContainer>
-            <Box sx={{ display: 'flex', width: '100%' }}>
-              <InputBase
-                sx={{ ml: 1, flexGrow: 1 }}
-                placeholder='Find something new'
-                inputProps={{ 'aria-label': 'search google maps' }}
-              />
-              <IconButton type='submit' sx={{ p: '10px' }} aria-label='search'>
-                <SearchIcon />
-              </IconButton>
-            </Box>
           </ControlContainer>
         </Box>
       </Grid>

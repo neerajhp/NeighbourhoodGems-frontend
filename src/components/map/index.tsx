@@ -2,7 +2,7 @@ import React from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { useAppSelector } from '../../hooks';
 import { mapConfig } from './config';
-import { markers } from './markers';
+import { MARKERS } from '../markers';
 
 //DUMMY DATA
 import { dummyData } from '../../res/dummy-data';
@@ -28,7 +28,9 @@ const Map = () => {
             markerControls[landmark.type] && (
               <Marker
                 icon={{
-                  url: markers[landmark.type].svg,
+                  url: MARKERS.filter((item) => {
+                    return item.type === landmark.type;
+                  })[0].svg,
                   scaledSize: new window.google.maps.Size(32, 32),
                 }}
                 title={'This is a temporary title'}
