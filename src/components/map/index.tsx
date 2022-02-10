@@ -1,11 +1,12 @@
-import React from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { useAppSelector } from '../../hooks';
-import { mapConfig } from './config';
-import { MARKERS } from '../markers';
+import React, { useEffect, useState } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { useAppSelector } from "../../hooks";
+import { mapConfig } from "./config";
+import { MARKERS } from "../markers";
+import { Landmark } from "../../api";
 
 //DUMMY DATA
-import { dummyData } from '../../res/dummy-data';
+import { dummyData } from "../../res/dummy-data";
 
 const Map = () => {
   //Google Maps Loader
@@ -13,6 +14,15 @@ const Map = () => {
     googleMapsApiKey: mapConfig.API_KEY,
   });
 
+  //Container for landmarks
+  const [landmarks, setLandmarks] = useState(null);
+
+  //Get landmarks
+  useEffect(() => {
+    Landmark.getAll().then((res) => console.log(res));
+  }, []);
+
+  //Marker Controller
   const markerControls = useAppSelector((state) => state.markers);
 
   const renderMap = () => {
@@ -33,7 +43,7 @@ const Map = () => {
                   })[0].svg,
                   scaledSize: new window.google.maps.Size(32, 32),
                 }}
-                title={'This is a temporary title'}
+                title={"This is a temporary title"}
                 position={landmark.location}
                 animation={google.maps.Animation.DROP}
               />

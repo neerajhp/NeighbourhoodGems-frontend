@@ -1,4 +1,4 @@
-import { Paper, Box, Grid, InputBase, IconButton } from '@mui/material';
+import { Paper, Box, InputBase, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
