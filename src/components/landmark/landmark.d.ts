@@ -1,11 +1,11 @@
 export interface landmarkType {
   id?: number;
-  name: String;
+  name: string;
   lat: number;
   lng: number;
   rating: number;
-  description: String;
-  url: String;
-  type: String;
-  tags: String[];
+  description: string;
+  url: string;
+  type: string;
+  tags: string[];
 }

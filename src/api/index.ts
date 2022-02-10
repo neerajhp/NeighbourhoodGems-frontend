@@ -1,7 +1,6 @@
-import axios from "./config";
-
 //Import Data models
-import { landmarkType } from "../models/landmark";
+import { landmarkType } from "../components/landmark/landmark";
+import { requests } from "./helpers";
 
 /**
  * Global API
@@ -12,6 +11,6 @@ import { landmarkType } from "../models/landmark";
 /** Landmarks */
 export const Landmark = {
   getAll: (): Promise<landmarkType[]> => {
-    return axios.get("/landmarks/all");
+    return requests.get("/landmarks/all");
   },
 };
