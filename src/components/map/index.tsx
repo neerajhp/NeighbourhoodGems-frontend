@@ -1,11 +1,14 @@
-import React from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { useAppSelector } from '../../hooks';
-import { mapConfig } from './config';
-import { MARKERS } from '../markers';
+import React, { useEffect, useState } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { useAppSelector } from "../../hooks";
+import { mapConfig } from "./config";
+import { icons } from "../landmark/icons";
+import { Landmark } from "../../api";
 
 //DUMMY DATA
-import { dummyData } from '../../res/dummy-data';
+import { dummyData } from "../../res/dummy-data";
+import { landmarkType } from "../landmark/landmark";
+import LandmarkMarker from "../landmark";
 
 const Map = () => {
   //Google Maps Loader
@@ -13,7 +16,17 @@ const Map = () => {
     googleMapsApiKey: mapConfig.API_KEY,
   });
 
-  const markerControls = useAppSelector((state) => state.markers);
+  //Container for landmarks
+  const [landmarks, setLandmarks] = useState<landmarkType[]>([]);
+  const [landmarksLoaded, setLandmarksLoaded] = useState(false);
+
+  //Get landmarks
+  useEffect(() => {
+    Landmark.getAll().then((res) => {
+      setLandmarks(res);
+      setLandmarksLoaded(true);
+    });
+  }, []);
 
   const renderMap = () => {
     return (
@@ -23,23 +36,10 @@ const Map = () => {
         zoom={17}
         options={mapConfig.options}
       >
-        {dummyData.map((landmark) => {
-          return (
-            markerControls[landmark.type] && (
-              <Marker
-                icon={{
-                  url: MARKERS.filter((item) => {
-                    return item.type === landmark.type;
-                  })[0].svg,
-                  scaledSize: new window.google.maps.Size(32, 32),
-                }}
-                title={'This is a temporary title'}
-                position={landmark.location}
-                animation={google.maps.Animation.DROP}
-              />
-            )
-          );
-        })}
+        {landmarksLoaded &&
+          landmarks.map((landmark) => {
+            return <LandmarkMarker key={landmark.id} {...landmark} />;
+          })}
       </GoogleMap>
     );
   };

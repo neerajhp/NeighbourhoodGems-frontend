@@ -5,31 +5,38 @@ import {
   Checkbox,
   FormGroup,
   FormControlLabel,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import React from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { toggleMarker } from './mapControlSlice';
-import { MARKERS } from '../markers';
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { togglelandmark } from "./mapControlSlice";
+import { icons } from "../landmark/icons";
 
-const ControlContainer = styled(Paper)(() => ({ padding: '16px' }));
+/** Styles */
+const ControlContainer = styled(Paper)(() => ({ padding: "16px" }));
 
+/**
+ * Map Controls component
+ *
+ * @author Neeraj Patel
+ */
 const MapControls = () => {
-  const markerControls = useAppSelector((state) => state.markers);
+  const landmarkControls = useAppSelector((state) => state.landmarks);
   const dispatch = useAppDispatch();
 
   return (
     <ControlContainer>
       <FormGroup>
-        {MARKERS.map((marker) => (
+        {icons.map((landmark, idx) => (
           <FormControlLabel
+            key={idx}
             control={
               <Checkbox
-                checked={markerControls[marker.type]}
-                onChange={() => dispatch(toggleMarker(marker.type))}
+                checked={landmarkControls[landmark.type]}
+                onChange={() => dispatch(togglelandmark(landmark.type))}
               />
             }
-            label={marker.type}
+            label={landmark.name}
           />
         ))}
       </FormGroup>
